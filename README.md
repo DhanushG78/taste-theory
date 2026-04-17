@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍽️ Taste Theory – Premium Recipe & Cooking Platform
 
-## Getting Started
+Taste Theory is a high-performance, aesthetically pleasing recipe and cooking blog platform built with **Next.js 15+** and **Contentstack CMS**. It features a modern, clean light-themed UI designed to provide a premium culinary browsing experience.
 
-First, run the development server:
+![Hero Banner](public/hero.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Features
+
+- **Dynamic Recipe Engine:** Real-time data fetching from Contentstack for recipes, including high-resolution images, metadata, and rich content.
+- **Interactive Browsing:** Search and filter recipes by title, description, or category (Veg, Non-Veg, Desserts).
+- **Structured Cooking Flow:** Step-by-step instructions and ingredient lists rendered in a clean, user-friendly format for a seamless cooking experience.
+- **Chef Directory:** Dedicated profiles for culinary experts, showcasing their bios and a dynamic grid of their published recipes.
+- **Categorized Discovery:** Explore recipes through curated category pages for easy navigation.
+- **Premium Aesthetics:** A carefully crafted light theme with smooth animations, ambient glows, and modern typography (using Tailwind CSS v4).
+- **Performance Optimized:** Leveraging Next.js Server Components and ISR (Incremental Static Regeneration) for lightning-fast load times.
+
+## 🛠️ Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **CMS:** [Contentstack](https://www.contentstack.com/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Data Fetching:** Contentstack Delivery SDK
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following:
+
+- **Node.js:** v18.0.0 or higher
+- **npm** or **yarn**
+- **Contentstack Account:** An active stack with Content Types configured (`recipe`, `category`, `chef`).
+
+## ⚙️ Project Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd taste-theory
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment Variables:**
+   Create a `.env.local` file in the root directory and add your Contentstack credentials:
+   ```env
+   CONTENTSTACK_API_KEY=your_api_key
+   CONTENTSTACK_DELIVERY_TOKEN=your_delivery_token
+   CONTENTSTACK_ENVIRONMENT=your_environment
+   ```
+
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) to see the result.
+
+## 🏗️ Content Architecture
+
+The application relies on three primary Content Types in Contentstack:
+
+| Content Type | Purpose |
+| :--- | :--- |
+| **Recipe** | Main content including ingredients, steps, cooking time, and difficulty. |
+| **Category** | Grouping for recipes (Veg, Non-Veg, etc.) with cover images. |
+| **Chef** | Profile data for recipe authors, including bios and profile photos. |
+
+## 📂 Project Structure
+
+```text
+├── app/                  # Next.js App Router (Routes & Server Components)
+│   ├── categories/       # Categories landing page
+│   ├── category/[name]/  # Dynamic category filtering
+│   ├── chefs/            # Chef directory and profile pages
+│   ├── recipe/[slug]/    # Detailed recipe view
+│   └── RecipeClient.tsx  # Interactive client-side filtering logic
+├── lib/                  # Contentstack SDK initialization
+├── public/               # Static assets (images, logos)
+└── tailwind.config.ts    # Custom design tokens and theme configuration
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Design Philosophy
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Taste Theory follows a "Food App" aesthetic:
+- **Clean Layout:** Spacious margins and airy typography for readability.
+- **Rich Colors:** Vibrant orange and rose accents to evoke culinary excitement.
+- **Ambient Micro-interactions:** Smooth hover effects and fade-in animations for a premium feel.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with ❤️ by the Taste Theory Team.
