@@ -1,27 +1,55 @@
+"use client";
+
+import { useEffect, useState, use } from "react";
 import Stack, { contentstackConfigured } from "@/lib/contentstack";
 import Link from "next/link";
+import { initLivePreview } from "@/lib/livePreview";
+import ContentstackLivePreview from "@contentstack/live-preview-utils";
 
-export const revalidate = 60; // ISR for better performance
+export default function RecipePage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = use(params);
+  const slug = resolvedParams.slug;
 
-const getRecipe = async (slug: string) => {
-  if (!contentstackConfigured || !Stack) return null;
+  const [recipe, setRecipe] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  const Query = Stack.ContentType("recipe").Query();
-  Query.where("slug", slug);
-  Query.includeReference(["category", "chef"]);
+  const fetchRecipe = async () => {
+    if (!contentstackConfigured || !Stack) {
+      setLoading(false);
+      return;
+    }
 
-  try {
-    const result = await Query.toJSON().find();
-    return result[0]?.[0] || null;
-  } catch (error) {
-    console.error("Error fetching recipe:", error);
-    return null;
+    try {
+      const Query = Stack.ContentType("recipe").Query();
+      Query.where("slug", slug);
+      Query.includeReference(["category", "chef"]);
+
+      const result = await Query.toJSON().find();
+      setRecipe(result[0]?.[0] || null);
+    } catch (error) {
+      console.error("Error fetching recipe:", error);
+      setRecipe(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    initLivePreview();
+    fetchRecipe();
+
+    ContentstackLivePreview.onEntryChange(() => {
+      fetchRecipe();
+    });
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto px-6 py-20 text-center animate-fade-in-up">
+        <h1 className="text-3xl font-bold text-stone-900">Loading recipe...</h1>
+      </div>
+    );
   }
-};
-
-export default async function RecipePage({ params }: any) {
-  const { slug } = await params;
-  const recipe = await getRecipe(slug);
 
   if (!recipe) {
     return (
@@ -58,7 +86,7 @@ export default async function RecipePage({ params }: any) {
         <div className="absolute bottom-0 inset-x-0 p-8 md:p-12 z-30">
           <div className="flex flex-wrap gap-3 mb-6">
             <span className="bg-orange-500 text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl shadow-lg">
-              {recipe.category?.title || "Uncategorized"}
+              {recipe.category?.[0]?.title || recipe.category?.title || "Uncategorized"}
             </span>
             <span className="bg-white/95 backdrop-blur-md text-stone-800 text-xs font-bold px-4 py-2 rounded-xl shadow-lg flex items-center gap-1.5">
               {recipe.difficulty === "Easy" ? "🟢" : recipe.difficulty === "Medium" ? "🟡" : "🔴"} 
@@ -155,7 +183,6 @@ export default async function RecipePage({ params }: any) {
                     stepCount++;
                     return (
                       <div key={index} className="relative pl-14">
-                        {/* The connector line to the next step block if there are more */}
                         <div className="absolute left-[27px] top-14 bottom-[-48px] w-1 bg-stone-100 rounded-full"></div>
                         
                         <div className="absolute left-0 top-3 w-14 h-14 rounded-full bg-white border-4 border-orange-100 flex items-center justify-center font-black text-xl text-orange-500 shadow-md z-10">

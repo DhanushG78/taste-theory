@@ -2,7 +2,6 @@
 
 Taste Theory is a high-performance, aesthetically pleasing recipe and cooking blog platform built with **Next.js 15+** and **Contentstack CMS**. It features a modern, clean light-themed UI designed to provide a premium culinary browsing experience.
 
-![Hero Banner](public/hero.png)
 
 ## 🚀 Features
 
